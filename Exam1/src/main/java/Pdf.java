@@ -1,6 +1,4 @@
-import java.io.File;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 
@@ -14,5 +12,28 @@ public class Pdf {
         String path = fpath.substring(0,fpath.indexOf("bin"));
         File outfile = new File(path +"tmp:/");
         new File(infile, String.valueOf(outfile));
+    }
+    public static void File(File infile,File outfile) throws IOException {
+        if (infile.exists()){
+            try{
+                System.out.println("在读取文件"+infile);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(infile),"GBK"));
+                String info = null;
+                StringBuffer sb = new StringBuffer();
+                while((info = reader.readLine())!=null){
+                    sb.append(info+"\r\n");
+                }
+                PrintWriter pw = new PrintWriter(outfile);
+                pw.write(sb.toString());
+                pw.flush();
+                pw.close();
+            }catch (FileNotFoundException e){
+                e.printStackTrace();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }else{
+            System.out.println("路径不存在");
+        }
     }
 }
